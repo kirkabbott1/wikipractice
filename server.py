@@ -78,9 +78,9 @@ def add_entry(page_name):
         )
     return redirect('/%s' % page_name)
 
-# @app.route('/')
-# def camel(word):
-#     return wiki_linkify(word)
+@app.route('/')
+def camel(word):
+    return wiki_linkify(word)
 
 if __name__ == '__main__':
     app.run(debug=True)
