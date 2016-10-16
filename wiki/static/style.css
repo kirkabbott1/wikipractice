@@ -1,12 +1,19 @@
 html {
-  background-color: #234439;
-}
+  background: linear-gradient(#234439, rgb(35, 39, 46));
 
+}
+.search {
+  padding-top: 10px;
+}
 body, a {
   text-align: center;
   color: antiquewhite;
+  padding: 0 2% 0 2%;
 }
+.edit a:hover, ul a:hover {
+  font-size: 18px;
 
+}
 label {
   display: block;
 }
@@ -14,10 +21,10 @@ label {
 ul {
   list-style: none;
   text-align: left;
-  margin-left: 20%;
+  margin-left: 10%;
   font-size: 20px;
 }
 
 p, h1 {
-  padding: 20px;
+  margin: 5%;
 }
