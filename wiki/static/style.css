@@ -1,11 +1,23 @@
 html {
-  background-color: #3a6959;
+  background-color: #234439;
 }
 
-body {
+body, a {
   text-align: center;
+  color: antiquewhite;
 }
 
 label {
   display: block;
+}
+
+ul {
+  list-style: none;
+  text-align: left;
+  margin-left: 20%;
+  font-size: 20px;
+}
+
+p, h1 {
+  padding: 20px;
 }

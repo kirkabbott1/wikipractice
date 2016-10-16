@@ -1,10 +1,14 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h1>History of edits</h1>
+<h1>History of edits for {{page_name}}</h1>
   <ul>
     {% for i in result %}
     <li><a href="/{{page_name}}/history/{{i.id}}">{{i.timestamp}}</a></li>
     {% endfor %}
   </ul>
+<p>
+  <a href="/allpages">Add more stuff to other stuff</a>
+
+</p>
 {% endblock %}
