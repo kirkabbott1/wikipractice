@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>List All Pages</h1>
+  <ul>
+    {% for i in result %}
+    <li><a href="/{{i.page_title}}">{{i.page_title}}</a></li>
+
+    {% endfor %}
+  </ul>
+
+{% endblock %}

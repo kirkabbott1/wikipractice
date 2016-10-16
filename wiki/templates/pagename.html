@@ -3,5 +3,11 @@
 {% block body %}
 <h1>{{page_name}}</h1>
 <p>{{content|safe}}</p>
-<h2>{{author|safe}}</h2>
+<h2>Written by: {{author|safe}}</h2>
+<div class="">
+  <a href="/{{page_name}}/edit">Edit this page</a>
+  <a href="/allpages">Add more stuff to other stuff</a>
+</div>
+<a href="{{page_name}}/history">History of edits</a>
+
 {% endblock %}
