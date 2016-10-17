@@ -105,7 +105,7 @@ def search():
 
 @app.route('/<page_name>/history')
 def history(page_name):
-    query=db.query("select content.id, page.page_title, content.timestamp from page, content where page.id = content.page_id and page_title = '%s' order by timestamp DESC" % page_name)
+    query=db.query("select content.id, page.page_title, content.timestamp from page, content where page.id = content.page_id and page_title = $1 order by timestamp DESC", page_name)
     result = query.namedresult()
     return render_template(
         'history.html',
@@ -114,7 +114,7 @@ def history(page_name):
     )
 @app.route('/<page_name>/history/<content_id>')
 def id(page_name,content_id):
-    query=db.query("select * from content where id = '%s'" % content_id)
+    query=db.query("select * from content where id = $1", content_id)
     editedcontent = query.namedresult()[0]
     return render_template(
         'id.html',
