@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from wiki_linkify import wiki_linkify
 import markdown
 import pg
@@ -6,6 +6,39 @@ import time
 from time import localtime, strftime
 db = pg.DB(dbname='wiki_db')
 app = Flask('wikiApp')
+app.secret_key = "wiki wiley kangaroo"
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+@app.route('/logout')
+def logout():
+    if 'username' in session:
+        del session['username']
+
+    return redirect('/home')
+
+@app.route('/submit_login', methods=['POST'])
+def submit_login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    query = db.query("select * from a_user where username = $1", username)
+    result_list = query.namedresult()
+    if len(result_list) > 0:
+        user = result_list[0]
+        if user.password == password:
+            # successfully logged in
+            session['username'] = user.username
+            return redirect('/allpages')
+        else:
+            return redirect('/login')
+    else:
+        return redirect('/login')
+
 
 @app.route('/allpages')
 def show_all():
@@ -35,7 +68,7 @@ def display_page(page_name):
         # print "PAGE CONTENT %r" % page_content
         wiki_content = markdown.markdown(wiki_linkify(page_content))
         author = result2[0].author
-        author = markdown.markdown(wiki_linkify(author))
+        # author = markdown.markdown(wiki_linkify(author))
         # print "string %r" % wiki_content
         return render_template(
             'pagename.html',
@@ -50,24 +83,33 @@ def display_page(page_name):
 @app.route('/<page_name>/edit')
 def edit_page(page_name):
     query = db.query("select page.id, content.timestamp, content.author, content.content from page, content where page.id = content.page_id and page_title = $1 order by timestamp DESC", page_name)
-    if len(query.namedresult()) > 0:
-        resultid = query.namedresult()
-        # print "OUR ID: %r" % resultid[0].id
-        id = resultid[0].id
-        author = resultid[0].author
-        content = resultid[0].content
-
+    if 'username' not in session:
+        return redirect('/login')
     else:
-        id = ""
-        author = ""
-        content = ""
-    return render_template(
-        'edit.html',
-        page_name=page_name,
-        resultid = id,
-        author = author,
-        content = content
-    )
+        # deny permisson
+        # @app.route('/logout')
+        # def logout():
+        #     del session['username']
+        #
+        #     return redirect('/home')
+        if len(query.namedresult()) > 0:
+            resultid = query.namedresult()
+            # print "OUR ID: %r" % resultid[0].id
+            id = resultid[0].id
+            author = resultid[0].author
+            content = resultid[0].content
+
+        else:
+            id = ""
+            author = ""
+            content = ""
+        return render_template(
+            'edit.html',
+            page_name=page_name,
+            resultid = id,
+            author = author,
+            content = content
+        )
 
 @app.route('/<page_name>/save', methods=['POST'])
 def add_entry(page_name):
@@ -77,17 +119,21 @@ def add_entry(page_name):
     author = request.form.get('Author')
     query = db.query("select * from page where page_title = $1",page_name)
     # print "QUERY: %r" % query.namedresult()
-    if len(query.namedresult()) < 1:
-        db.insert(
-        'page', {
-                'page_title': page_name
-            }
-
-        )
-        query = db.query("select page.id from page where page_title = $1", page_name)
-        page_id = query.namedresult()[0].id
+    if 'username' not in session:
+        return redirect('/login')
     else:
-        pass
+
+        if len(query.namedresult()) < 1:
+            db.insert(
+            'page', {
+                    'page_title': page_name
+                }
+
+            )
+            query = db.query("select page.id from page where page_title = $1", page_name)
+            page_id = query.namedresult()[0].id
+        else:
+            pass
     db.insert(
     'content', {
             'content': content,

@@ -1,10 +1,22 @@
+.logout {
+  float: left;
+}
+
 html {
   background: linear-gradient(#234439, rgb(35, 39, 46));
   height: 100%;
 
 }
+.logs {
+  padding
+}
 .search {
   padding-top: 10px;
+}
+.topright {
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 body, a {
   text-align: center;

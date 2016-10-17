@@ -6,12 +6,26 @@
     <link href="/static/style.css" rel="stylesheet">
   </head>
   <body>
+    <div class="logs">
+    {% if not session['username'] %}
+    <p><a href="/login">Login</a></p>
+    {% endif %}
+    {% if session['username'] %}
+    <p><a href="/logout">Logout</a><br>
+    {% endif %}
+    </div>
+    <div class="topright">
+      {% if session['username'] %}
+      {{session['username']}}
+      {% endif %}
+    </div>
+
     <form class="search" action="/search" method="post">
       <input type="text" name="search" placeholder="search">
       <button type="submit" name="submit">Submit</button>
     </form>
     {% block body %}
-    <h1>Place holder Page</h1>
+    <h1>Create or edit wikis, {{seesion[username] or wikifier}}</h1>
     {% endblock %}
   </body>
 </html>
