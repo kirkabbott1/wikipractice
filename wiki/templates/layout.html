@@ -6,10 +6,20 @@
     <link href="/static/style.css" rel="stylesheet">
   </head>
   <body>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
     <div class="logs">
-    {% if not session['username'] %}
+    <!-- {% if not session['username'] %}
     <p><a href="/login">Login</a></p>
-    {% endif %}
+    {% endif %} -->
     {% if session['username'] %}
     <p><a href="/logout">Logout</a><br>
     {% endif %}

@@ -1,12 +1,22 @@
-from flask import Flask, render_template, request, redirect, session
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+from flask import Flask, render_template, request, redirect, session, flash
 from wiki_linkify import wiki_linkify
+import os
 import markdown
 import pg
 import time
 from time import localtime, strftime
-db = pg.DB(dbname='wiki_db')
-app = Flask('wikiApp')
-app.secret_key = "wiki wiley kangaroo"
+db = pg.DB(
+    dbname=os.environ.get('PG_DBNAME'),
+    host=os.environ.get('PG_HOST'),
+    user=os.environ.get('PG_USERNAME'),
+    passwd=os.environ.get('PG_PASSWORD')
+)
+
+tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+app = Flask('Wiki', template_folder=tmp_dir)
+app.secret_key = "wiki wiley kangarooSSS"
 
 @app.route('/home')
 def home():
@@ -134,15 +144,16 @@ def add_entry(page_name):
             page_id = query.namedresult()[0].id
         else:
             pass
-    db.insert(
-    'content', {
-            'content': content,
-            'timestamp': time.strftime('%Y-%m-%d %I:%M:%S', localtime()),
-            'page_id': page_id,
-            'author': author
-        }
-    )
-    return redirect('/%s' % page_name)
+        db.insert(
+        'content', {
+                'content': content,
+                'timestamp': time.strftime('%Y-%m-%d %I:%M:%S', localtime()),
+                'page_id': page_id,
+                'author': author
+            }
+        )
+        flash("successfully updated %s" % page_name)
+        return redirect('/%s' % page_name)
 
 @app.route('/search', methods=['POST'])
 def search():

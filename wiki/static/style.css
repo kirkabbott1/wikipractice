@@ -8,10 +8,10 @@ html {
 
 }
 .logs {
-  padding
+  padding: -10px;
 }
 .search {
-  padding-top: 10px;
+  padding-top: -10px;
 }
 .topright {
   position: absolute;
