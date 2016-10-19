@@ -7,6 +7,7 @@ import markdown
 import pg
 import time
 from time import localtime, strftime
+# 10-17 schoology
 db = pg.DB(
     dbname=os.environ.get('PG_DBNAME'),
     host=os.environ.get('PG_HOST'),
