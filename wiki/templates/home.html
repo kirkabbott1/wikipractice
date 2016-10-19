@@ -6,7 +6,9 @@
 <h1>Welcome</h1>
 <p>Hello, {{session['username'] or 'wikifier'}}!</p>
 {% if not session['username'] %}
-<p><a href="/login">Login</a></p>
+<p><a href="/login">Login</a>
+<a href="/register">Register</a></p>
+
 {% endif %}
 
 {% endblock %}

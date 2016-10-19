@@ -32,6 +32,10 @@ def logout():
 
     return redirect('/home')
 
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
 @app.route('/submit_login', methods=['POST'])
 def submit_login():
     username = request.form.get('username')
