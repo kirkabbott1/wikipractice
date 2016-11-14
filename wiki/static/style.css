@@ -23,10 +23,10 @@ body, a {
   color: antiquewhite;
   padding: 0 2% 0 2%;
 }
-.edit a:hover, ul a:hover {
+/*.edit a:hover, ul a:hover {
   font-size: 18px;
 
-}
+}*/
 label {
   display: block;
 }

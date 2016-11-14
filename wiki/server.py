@@ -19,6 +19,10 @@ tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask('Wiki', template_folder=tmp_dir)
 app.secret_key = "wiki wiley kangarooSSS"
 
+@app.route('/')
+def redirect_to_home():
+    return redirect('/home')
+
 @app.route('/home')
 def home():
     return render_template('home.html')
