@@ -51,7 +51,7 @@ def submit_login():
         user = result_list[0]
         if user.password == password:
             # successfully logged in
-            session['username'] = user.username
+            session['username'] = username
             return redirect('/allpages')
         else:
             return redirect('/login')
@@ -70,7 +70,7 @@ def submit_new_user():
             'password': password
         }
     )
-    session['username'] = user.username
+    session['username'] = username
     return redirect('/home')
 
 @app.route('/allpages')
