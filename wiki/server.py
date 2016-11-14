@@ -59,7 +59,7 @@ def submit_login():
         return redirect('/login')
 
 @app.route('/submit_new_user', methods=['POST'])
-def submit_login():
+def submit_new_user():
     username = request.form.get('username')
     password = request.form.get('password')
 
