@@ -58,6 +58,20 @@ def submit_login():
     else:
         return redirect('/login')
 
+@app.route('/submit_new_user', methods=['POST'])
+def submit_login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    db.insert(
+        'a_user',
+        {
+            'username': username,
+            'password': password
+        }
+    )
+    session['username'] = user.username
+    return redirect('/home')
 
 @app.route('/allpages')
 def show_all():
